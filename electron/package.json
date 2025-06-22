@@ -1,6 +1,6 @@
 {
   "name": "claude-code-client-electron",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Claude Code Client - Electron Desktop App",
   "author": "kurogedelic",
   "main": "dist/index.js",
