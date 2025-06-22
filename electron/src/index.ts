@@ -1,6 +1,9 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { join } from 'path';
 
+// Set app name
+app.setName('Claude Code Client');
+
 // Keep a global reference of the window object
 let mainWindow: BrowserWindow;
 
@@ -15,7 +18,8 @@ async function createWindow(): Promise<void> {
       preload: join(__dirname, 'preload.js')
     },
     titleBarStyle: 'default',
-    icon: undefined // You can add an icon path here
+    title: 'Claude Code Client',
+    icon: join(__dirname, '../assets/icon.png')
   });
 
   // Load the app
@@ -62,7 +66,19 @@ ipcMain.handle('select-directory', async () => {
 });
 
 // This method will be called when Electron has finished initialization
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  // Set dock icon on macOS
+  if (process.platform === 'darwin') {
+    const iconPath = join(__dirname, '../assets/icon.icns');
+    try {
+      app.dock.setIcon(iconPath);
+    } catch (error) {
+      console.log('Could not set dock icon:', error);
+    }
+  }
+  
+  createWindow();
+});
 
 // Quit when all windows are closed
 app.on('window-all-closed', () => {
