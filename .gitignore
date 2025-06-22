@@ -98,3 +98,8 @@ Desktop.ini
 # User-specific chat history
 chat-history.json
 conversations/
+
+# Claude Code configuration (user-specific)
+CLAUDE.md
+CLAUDE.MD
+Claude.md

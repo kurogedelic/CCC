@@ -19,7 +19,7 @@ async function createWindow(): Promise<void> {
     },
     titleBarStyle: 'default',
     title: 'Claude Code Client',
-    icon: join(__dirname, '../assets/icon.png')
+    icon: join(__dirname, '../../assets/icon.png')
   });
 
   // Load the app
@@ -69,7 +69,7 @@ ipcMain.handle('select-directory', async () => {
 app.whenReady().then(() => {
   // Set dock icon on macOS
   if (process.platform === 'darwin') {
-    const iconPath = join(__dirname, '../assets/icon.icns');
+    const iconPath = join(__dirname, '../../assets/icon.icns');
     try {
       app.dock.setIcon(iconPath);
     } catch (error) {
