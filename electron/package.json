@@ -1,6 +1,6 @@
 {
   "name": "claude-code-client-electron",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Claude Code Client - Electron Desktop App",
   "author": "kurogedelic",
   "main": "dist/index.js",
@@ -23,8 +23,7 @@
     "files": [
       "dist/**/*",
       "../dist/**/*",
-      "../server/dist/**/*",
-      "node_modules/**/*"
+      "../server/dist/**/*"
     ],
     "extraResources": [
       {
@@ -48,7 +47,10 @@
       "icon": "assets/icon.icns",
       "identity": null,
       "gatekeeperAssess": false,
-      "hardenedRuntime": false
+      "hardenedRuntime": false,
+      "type": "distribution",
+      "entitlements": null,
+      "entitlementsInherit": null
     },
     "linux": {
       "category": "Development",
