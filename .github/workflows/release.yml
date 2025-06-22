@@ -1,0 +1,123 @@
+name: Release Builds
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.0.0
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  build-and-release:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+        include:
+          - os: macos-latest
+            platform: 'darwin'
+            arch: 'x64,arm64'
+            artifact_name: 'CCC-macOS'
+            file_extension: '.dmg'
+          - os: ubuntu-latest
+            platform: 'linux'
+            arch: 'x64'
+            artifact_name: 'CCC-Linux'
+            file_extension: '.deb'
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install server dependencies
+        run: |
+          cd server
+          npm ci
+
+      - name: Install electron dependencies
+        run: |
+          cd electron
+          npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Build server
+        run: npm run server:build
+
+      - name: Sync Capacitor
+        run: npm run cap:sync
+
+      - name: Build Electron app (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          cd electron
+          npm run build:mac
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Build Electron app (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cd electron
+          npm run build:linux
+
+      - name: Create artifacts directory
+        run: mkdir -p artifacts
+
+      - name: Copy built files (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          find electron/dist -name "*.dmg" -exec cp {} artifacts/ \;
+          find electron/dist -name "*.zip" -exec cp {} artifacts/ \;
+
+      - name: Copy built files (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          find electron/dist -name "*.deb" -exec cp {} artifacts/ \;
+          find electron/dist -name "*.tar.gz" -exec cp {} artifacts/ \;
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: artifacts/*
+
+      - name: Create Release
+        if: matrix.os == 'macos-latest'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/*
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  upload-linux-to-release:
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: CCC-Linux
+          path: linux-artifacts
+
+      - name: Upload to existing release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: linux-artifacts/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

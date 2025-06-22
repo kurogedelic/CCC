@@ -1,0 +1,87 @@
+{
+  "name": "claude-code-client-electron",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "homepage": "./",
+  "scripts": {
+    "build": "tsc",
+    "start": "electron dist/index.js",
+    "dev": "tsc && NODE_ENV=development electron dist/index.js",
+    "build:mac": "electron-builder --mac --publish=never",
+    "build:linux": "electron-builder --linux --publish=never",
+    "build:win": "electron-builder --win --publish=never",
+    "dist": "electron-builder --publish=never"
+  },
+  "build": {
+    "appId": "com.ccc.claude-code-client",
+    "productName": "Claude Code Client",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist/**/*",
+      "../build/**/*",
+      "../server/dist/**/*",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../build",
+        "to": "app",
+        "filter": ["**/*"]
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "category": "Development",
+      "target": [
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "tar.gz",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.png"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "electron": "^25.0.0",
+    "electron-builder": "^24.6.3",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {}
+}

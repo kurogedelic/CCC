@@ -1,0 +1,56 @@
+/* 
+ * Custom Design Overrides
+ * Edit this file to customize the appearance of CCC
+ * 
+ * Available CSS variables:
+ * --bg-primary, --bg-secondary, --bg-tertiary
+ * --text-primary, --text-secondary, --text-tertiary
+ * --border, --accent, --accent-hover, --shadow
+ */
+
+/* Example customizations (uncomment to use): */
+
+/*
+:root {
+  // Custom color theme
+  --accent: #007AFF;
+  --accent-hover: #0056CC;
+  
+  // Custom fonts
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  
+  // Custom font sizes
+  --font-size-xs: 10px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+}
+*/
+
+/*
+// Custom cost display styling
+.cost-display {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: white;
+  border: none;
+}
+*/
+
+/*
+// Custom message bubbles
+.message-bubble {
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+*/
+
+/*
+// Custom sidebar styling
+.sidebar {
+  background: linear-gradient(180deg, var(--bg-secondary), var(--bg-tertiary));
+}
+*/
+
+/* Add your custom styles below: */
