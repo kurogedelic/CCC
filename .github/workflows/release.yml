@@ -10,22 +10,7 @@ env:
 
 jobs:
   build-and-release:
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest]
-        include:
-          - os: macos-latest
-            platform: 'darwin'
-            arch: 'x64,arm64'
-            artifact_name: 'CCC-macOS'
-            file_extension: '.dmg'
-          - os: ubuntu-latest
-            platform: 'linux'
-            arch: 'x64'
-            artifact_name: 'CCC-Linux'
-            file_extension: '.deb'
-
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
@@ -59,65 +44,33 @@ jobs:
       - name: Sync Capacitor
         run: npm run cap:sync
 
-      - name: Build Electron app (macOS)
-        if: matrix.os == 'macos-latest'
+      - name: Build Electron app
         run: |
           cd electron
           npm run build:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
 
-      - name: Build Electron app (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          cd electron
-          npm run build:linux
-
       - name: Create artifacts directory
         run: mkdir -p artifacts
 
-      - name: Copy built files (macOS)
-        if: matrix.os == 'macos-latest'
+      - name: Copy built files
         run: |
           find electron/dist -name "*.dmg" -exec cp {} artifacts/ \;
           find electron/dist -name "*.zip" -exec cp {} artifacts/ \;
 
-      - name: Copy built files (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          find electron/dist -name "*.deb" -exec cp {} artifacts/ \;
-          find electron/dist -name "*.tar.gz" -exec cp {} artifacts/ \;
-
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}
+          name: CCC-macOS
           path: artifacts/*
 
       - name: Create Release
-        if: matrix.os == 'macos-latest'
         uses: softprops/action-gh-release@v1
         with:
           files: artifacts/*
           draft: false
           prerelease: false
           generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  upload-linux-to-release:
-    needs: build-and-release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Linux artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: CCC-Linux
-          path: linux-artifacts
-
-      - name: Upload to existing release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: linux-artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
