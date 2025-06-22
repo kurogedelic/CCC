@@ -1,6 +1,6 @@
 {
   "name": "claude-code-client-electron",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Claude Code Client - Electron Desktop App",
   "author": "kurogedelic",
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
   },
   "build": {
     "appId": "com.ccc.claude-code-client",
-    "productName": "Claude Code Client",
+    "productName": "CCC",
     "directories": {
       "output": "dist"
     },
@@ -38,11 +38,11 @@
       "target": [
         {
           "target": "dmg",
-          "arch": ["x64", "arm64"]
+          "arch": ["arm64"]
         },
         {
           "target": "zip",
-          "arch": ["x64", "arm64"]
+          "arch": ["arm64"]
         }
       ],
       "icon": "assets/icon.icns"

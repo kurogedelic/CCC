@@ -1,7 +1,7 @@
 {
   "name": "ccc",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Claude Code Client - A modern web interface for Claude Code CLI",
   "author": "kurogedelic",
