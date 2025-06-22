@@ -1,6 +1,8 @@
 {
   "name": "claude-code-client-electron",
   "version": "0.0.1",
+  "description": "Claude Code Client - Electron Desktop App",
+  "author": "kurogedelic",
   "main": "dist/index.js",
   "homepage": "./",
   "scripts": {
@@ -20,13 +22,13 @@
     },
     "files": [
       "dist/**/*",
-      "../build/**/*",
+      "../dist/**/*",
       "../server/dist/**/*",
       "node_modules/**/*"
     ],
     "extraResources": [
       {
-        "from": "../build",
+        "from": "../dist",
         "to": "app",
         "filter": ["**/*"]
       }

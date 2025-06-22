@@ -44,6 +44,11 @@ jobs:
       - name: Sync Capacitor
         run: npm run cap:sync
 
+      - name: Build Electron TypeScript
+        run: |
+          cd electron
+          npm run build
+
       - name: Build Electron app
         run: |
           cd electron
