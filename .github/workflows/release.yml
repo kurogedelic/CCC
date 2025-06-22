@@ -59,6 +59,8 @@ jobs:
           npm run build:mac
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: false
+          CSC_LINK: ""
+          CSC_KEY_PASSWORD: ""
 
       - name: Create artifacts directory
         run: mkdir -p artifacts

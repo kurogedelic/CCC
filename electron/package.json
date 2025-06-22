@@ -45,7 +45,10 @@
           "arch": ["arm64"]
         }
       ],
-      "icon": "assets/icon.icns"
+      "icon": "assets/icon.icns",
+      "identity": null,
+      "gatekeeperAssess": false,
+      "hardenedRuntime": false
     },
     "linux": {
       "category": "Development",
