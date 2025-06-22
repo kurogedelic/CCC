@@ -8,6 +8,10 @@ on:
 env:
   NODE_VERSION: '18'
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build-and-release:
     runs-on: macos-latest
